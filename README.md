@@ -1,0 +1,40 @@
+# SentimentScope: Sentiment Analysis with Transformers
+
+Udacity project: classify IMDB movie reviews as **positive** or **negative** with a transformer (`DemoGPT`) adapted for binary classification, built for CineScope's recommendation system.
+
+## Results (IMDB test set, 25,000 reviews)
+
+| Model | Context | Validation | **Test accuracy** |
+|---|---|---|---|
+| `DemoGPT`, trained from scratch (required model) | 512 tokens | 86.28% | **83.70%** ✅ (target > 75%) |
+| `bert-base-uncased`, fine-tuned (extra section) | 512 tokens | 94.04% | **93.86%** ✅ (stand-out target > 90%) |
+
+## Files
+
+| File | Description |
+|---|---|
+| `SentimentScope_starter.ipynb` | Complete notebook with all outputs: data loading and exploration, `IMDBDataset`, `DemoGPT`, training, testing, an inference interface (`SentimentPredictor`), BERT fine-tuning and the conclusion |
+| `sentimentscope_model.pt` | Best `DemoGPT` checkpoint (`model_state_dict` + `config`), 83.70% test accuracy |
+| `requirements.txt` | Python dependencies |
+
+The fine-tuned BERT checkpoint (`sentimentscope_bert/`, 418 MB) is not included because it is too large for GitHub. Its training logs and results are visible in the notebook, and running the BERT section recreates it (about 2 hours on an Apple M5 Pro GPU).
+
+## How to run
+
+1. Set up the environment:
+   ```bash
+   python3 -m venv .venv && source .venv/bin/activate
+   pip install -r requirements.txt
+   ```
+2. Download the dataset: get [`aclImdb_v1.tar.gz`](https://ai.stanford.edu/~amaas/data/sentiment/aclImdb_v1.tar.gz) and place it next to the notebook. The notebook extracts it automatically.
+3. Open `SentimentScope_starter.ipynb` and run all cells. The device is picked automatically: **CUDA**, then **Apple Silicon (MPS)**, then **CPU**. Set `RUN_BERT_FINETUNE = False` to skip the BERT section.
+
+## Using the saved model
+
+After running the notebook's class-definition cells:
+
+```python
+predictor = SentimentPredictor("sentimentscope_model.pt")
+predictor.predict(["I loved every moment of it!", "A waste of time."])
+# [{'label': 'positive', ...}, {'label': 'negative', ...}]
+```
