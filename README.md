@@ -9,6 +9,8 @@ Udacity project: classify IMDB movie reviews as **positive** or **negative** wit
 | `DemoGPT`, trained from scratch (required model) | 512 tokens | 86.28% | **83.70%** ✅ (target > 75%) |
 | `bert-base-uncased`, fine-tuned (extra section) | 512 tokens | 94.04% | **93.86%** ✅ (stand-out target > 90%) |
 
+**Extensions** (3 seeds each, early stopping): `DemoGPT` scored **83.99 ± 0.26%** and `DemoGPTPlus` (bidirectional attention + padding-aware pooling) scored **85.01 ± 0.32%** test accuracy. A truncation analysis shows 89.3% of reviews are cut off at 128 tokens, compared with 14.8% at 512.
+
 ## Files
 
 | File | Description |
